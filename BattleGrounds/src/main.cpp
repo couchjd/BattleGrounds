@@ -16,6 +16,7 @@ void scroll_callback(GLFWwindow*, double xoffset, double yoffset);
 
 void processInput(GLFWwindow *window);
 
+
 unsigned int SCR_WIDTH = 800;
 unsigned int SCR_HEIGHT = 600;
 const char* TITLE = "BattleGrounds\0";
@@ -33,6 +34,9 @@ int main() {
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glfwSetScrollCallback(window, scroll_callback);
+
+	glewInit();
+	glewExperimental = true;
 
 
 	return 0;
