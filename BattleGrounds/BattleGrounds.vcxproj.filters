@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="3rd Party">
+      <UniqueIdentifier>{6f91346a-e32d-4c2c-85a5-66490ea6d241}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd Party\imgui">
+      <UniqueIdentifier>{256f1ddc-5fd5-467d-9de3-89947c5f11b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd Party\stb_image">
+      <UniqueIdentifier>{7dab3d5b-2fa9-49b3-9bfd-231a8bad7fc5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3rd Party\imgui\imgui.cpp">
+      <Filter>3rd Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3rd Party\imgui\imgui_demo.cpp">
+      <Filter>3rd Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3rd Party\imgui\imgui_draw.cpp">
+      <Filter>3rd Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3rd Party\imgui\imgui_impl_glfw.cpp">
+      <Filter>3rd Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3rd Party\imgui\imgui_impl_opengl3.cpp">
+      <Filter>3rd Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3rd Party\imgui\imgui_widgets.cpp">
+      <Filter>3rd Party\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\3rd Party\stb_image\stb_image.cpp">
+      <Filter>3rd Party\stb_image</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\3rd Party\imgui\imconfig.h">
+      <Filter>3rd Party\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3rd Party\imgui\imgui.h">
+      <Filter>3rd Party\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3rd Party\imgui\imgui_impl_glfw.h">
+      <Filter>3rd Party\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3rd Party\imgui\imgui_impl_opengl3.h">
+      <Filter>3rd Party\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3rd Party\imgui\imgui_internal.h">
+      <Filter>3rd Party\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3rd Party\imgui\imstb_rectpack.h">
+      <Filter>3rd Party\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3rd Party\imgui\imstb_textedit.h">
+      <Filter>3rd Party\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3rd Party\imgui\imstb_truetype.h">
+      <Filter>3rd Party\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\3rd Party\stb_image\stb_image.h">
+      <Filter>3rd Party\stb_image</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shader_s.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\3rd Party\imgui\imgui.ini">
+      <Filter>3rd Party\imgui</Filter>
+    </None>
+  </ItemGroup>
+</Project>
