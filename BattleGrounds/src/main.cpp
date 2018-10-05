@@ -16,7 +16,6 @@ void scroll_callback(GLFWwindow*, double xoffset, double yoffset);
 
 void processInput(GLFWwindow *window);
 
-
 unsigned int SCR_WIDTH = 800;
 unsigned int SCR_HEIGHT = 600;
 const char* TITLE = "BattleGrounds\0";
@@ -38,6 +37,9 @@ int main() {
 	glewInit();
 	glewExperimental = true;
 
+	while (!glfwWindowShouldClose(window)) {
+
+	}
 
 	return 0;
 }
