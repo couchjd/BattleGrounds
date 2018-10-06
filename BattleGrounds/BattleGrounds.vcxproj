@@ -167,9 +167,13 @@
     <ClInclude Include="src\3rd Party\imgui\imstb_textedit.h" />
     <ClInclude Include="src\3rd Party\imgui\imstb_truetype.h" />
     <ClInclude Include="src\3rd Party\stb_image\stb_image.h" />
-    <ClInclude Include="src\shader_s.h" />
+    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\utility.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\shaders\fragmentShader.glsl" />
+    <None Include="res\shaders\vertexShader.glsl" />
     <None Include="src\3rd Party\imgui\imgui.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
