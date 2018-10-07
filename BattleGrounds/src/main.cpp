@@ -51,21 +51,21 @@ int main() {
 		 1.0f,	1.0f, 0.0f,		1.0f,	1.0f,
 		
 		-1.0f,	0.5f, 0.0f,		0.0f,	0.75f, //[5]
-		-0.5f,	0.5f, 0.0f,		0.25f,	0.75f,
-		 0.0f,	0.5f, 0.0f,		0.5f,   0.75f,
-		 0.5f,	0.5f, 0.0f,		0.75f,  0.75f,
+		-0.5f,	0.5f, 0.5f,		0.25f,	0.75f,
+		 0.0f,	0.5f, 0.5f,		0.5f,   0.75f,
+		 0.5f,	0.5f, 0.5f,		0.75f,  0.75f,
 		 1.0f,	0.5f, 0.0f,		1.0f,	0.75f,
 		
 		-1.0f,	0.0f, 0.0f,		0.0f,	0.5f, //[10]
-		-0.5f,	0.0f, 0.0f,		0.25f,	0.5f,
-		 0.0f,	0.0f, 3.0f,		0.5f,	0.5f,
-		 0.5f,	0.0f, 0.0f,		0.75f,	0.5f,
+		-0.5f,	0.0f, 0.5f,		0.25f,	0.5f,
+		 0.0f,	0.0f, 0.75f,	0.5f,	0.5f,
+		 0.5f,	0.0f, 0.5f,		0.75f,	0.5f,
 		 1.0f,	0.0f, 0.0f,		1.0f,	0.5f,
 		
 		-1.0f, -0.5f, 0.0f,		0.0f,	0.25f, //[15]
-		-0.5f, -0.5f, 0.0f,		0.25f,	0.25f,
-		 0.0f, -0.5f, 0.0f,		0.5f,	0.25f,
-		 0.5f, -0.5f, 0.0f,		0.75f,	0.25f,
+		-0.5f, -0.5f, 0.5f,		0.25f,	0.25f,
+		 0.0f, -0.5f, 0.5f,		0.5f,	0.25f,
+		 0.5f, -0.5f, 0.5f,		0.75f,	0.25f,
 		 1.0f, -0.5f, 0.0f,		1.0f,	0.25f,
 
 		-1.0f, -1.0f, 0.0f,		0.0f,	0.0f, //[20]
@@ -161,6 +161,7 @@ int main() {
 
 		glm::mat4 model(1);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		model = glm::rotate(model, glm::radians(-45.0f), glm::fvec3(1.0f, 0.0f, 0.0f));
 		shader.setMat4("model", model);
 
 		glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(unsigned int), GL_UNSIGNED_INT, 0);
