@@ -41,18 +41,72 @@ int main() {
 
 	Texture background("./res/textures/faerun_no_tags.jpg");
 
-	float yVal = ((float)background.height / (float)background.width) - 1.0f;
+	//float yVal = ((float)background.height / (float)background.width) - 1.0f;
 
 	float vertices[] = {
-		// positions			// texture coords
-		 1.0f,  1.0f, 0.0f,		1.0f, 1.0f, // top right
-		 1.0f,  yVal, 0.0f,		1.0f, 0.0f, // bottom right
-		-1.0f,  yVal, 0.0f,		0.0f, 0.0f, // bottom left
-		-1.0f,  1.0f, 0.0f,		0.0f, 1.0f  // top left 
+		-1.0f,	1.0f, 0.0f,		0.0f,	1.0f, //[0]
+		-0.5f,  1.0f, 0.0f,		0.25f,  1.0f,
+		 0.0f,	1.0f, 0.0f,		0.5f,   1.0f,
+		 0.5f,	1.0f, 0.0f,		0.75f,  1.0f,
+		 1.0f,	1.0f, 0.0f,		1.0f,	1.0f,
+		
+		-1.0f,	0.5f, 0.0f,		0.0f,	0.75f, //[5]
+		-0.5f,	0.5f, 0.0f,		0.25f,	0.75f,
+		 0.0f,	0.5f, 0.0f,		0.5f,   0.75f,
+		 0.5f,	0.5f, 0.0f,		0.75f,  0.75f,
+		 1.0f,	0.5f, 0.0f,		1.0f,	0.75f,
+		
+		-1.0f,	0.0f, 0.0f,		0.0f,	0.5f, //[10]
+		-0.5f,	0.0f, 0.0f,		0.25f,	0.5f,
+		 0.0f,	0.0f, 3.0f,		0.5f,	0.5f,
+		 0.5f,	0.0f, 0.0f,		0.75f,	0.5f,
+		 1.0f,	0.0f, 0.0f,		1.0f,	0.5f,
+		
+		-1.0f, -0.5f, 0.0f,		0.0f,	0.25f, //[15]
+		-0.5f, -0.5f, 0.0f,		0.25f,	0.25f,
+		 0.0f, -0.5f, 0.0f,		0.5f,	0.25f,
+		 0.5f, -0.5f, 0.0f,		0.75f,	0.25f,
+		 1.0f, -0.5f, 0.0f,		1.0f,	0.25f,
+
+		-1.0f, -1.0f, 0.0f,		0.0f,	0.0f, //[20]
+		-0.5f, -1.0f, 0.0f,		0.25f,	0.0f,
+		 0.0f, -1.0f, 0.0f,		0.5f,	0.0f,
+		 0.5f, -1.0f, 0.0f,		0.75f,	0.0f,
+		 1.0f, -1.0f, 0.0f,		1.0f,	0.0f
 	};
 	unsigned int indices[] = {
-		0, 1, 3, // first triangle
-		1, 2, 3  // second triangle
+		0,  1,  5, //row 1
+		5,  1,  6,
+		1,  2,  6,
+		6,  2,  7,
+		2,  3,  7,
+		7,  3,  8,
+		3,  4,  8,
+		8,  4,  9,
+		5,  6, 10, //row 2
+	   10,  6, 11,
+	    6,  7, 11,
+	   11,  7, 12,
+	    7,  8, 12,
+	   12,	8, 13,
+	    8,	9, 13,
+	   13,  9, 14,
+	   10, 11, 15, //row 3
+	   15, 11, 16,
+	   11, 12, 16,
+	   16, 12, 17,
+	   12, 13, 17,
+	   17, 13, 18,
+	   13, 14, 18,
+	   18, 14, 19,
+	   15, 16, 20, //row 4
+	   20, 16, 21,
+	   16, 17, 21,
+	   21, 17, 22,
+	   17, 18, 22,
+	   22, 18, 23,
+	   18, 19, 23,
+	   23, 19, 24
 	};
 
 	unsigned int VBO, VAO, EBO;
@@ -79,6 +133,11 @@ int main() {
 
 	glUniform1i(glGetUniformLocation(shader.ID, "texture1"), 0);
 
+	//Need to implement ImGui to toggle this setting.
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 	while (!glfwWindowShouldClose(window)) {
 		processInput(window);
 
@@ -104,7 +163,7 @@ int main() {
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 		shader.setMat4("model", model);
 
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(unsigned int), GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
