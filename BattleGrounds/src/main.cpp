@@ -43,6 +43,29 @@ int main() {
 
 	//float yVal = ((float)background.height / (float)background.width) - 1.0f;
 
+	float *vertices = (float*)malloc(sizeof(float)*(background.width / 100) * (background.height / 100) * 5);
+	int z = 0;
+	for (float y = -1.0f; y < 1.0f; y += 100.0f / (float)background.height) {
+		for (float x = -1.0f; x < 1.0f; x += 100.0f / (float)background.width, z += 5) {
+			vertices[z]		= x;		// x-coordinate
+			vertices[z + 1] = y;		// y-coordinate
+			vertices[z + 2] = 0.0f;		// z-coordinate
+			vertices[z + 3] = 0.0f;		// texture u-coordinate
+			vertices[z + 4] = 0.0f;		// texture v-coordinate
+			std::cout << "x: " << x << " y: " << y << " z: " << z << std::endl;
+		}
+	}
+
+	unsigned int *indices = new unsigned int((background.width / 100) * (background.height / 100) * 6);
+	for (int ti = 0, vi = 0, y = 0; y < background.height/100; y++, vi++) {
+		for (int x = 0; x < background.width/100; x++, ti += 6, vi++) {
+			indices[ti] = vi;
+			indices[ti + 3] = indices[ti + 2] = vi + 1;
+			indices[ti + 4] = indices[ti + 1] = vi + background.width/100 + 1;
+			indices[ti + 5] = vi + background.width/100 + 2;
+		}
+	}
+/*
 	float vertices[] = {
 		-1.0f,	1.0f, 0.0f,		0.0f,	1.0f, //[0]
 		-0.5f,  1.0f, 0.0f,		0.25f,  1.0f,
@@ -108,6 +131,7 @@ int main() {
 	   18, 19, 23,
 	   23, 19, 24
 	};
+*/
 
 	unsigned int VBO, VAO, EBO;
 	glGenVertexArrays(1, &VAO);
@@ -135,7 +159,6 @@ int main() {
 
 	//Need to implement ImGui to toggle this setting.
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	while (!glfwWindowShouldClose(window)) {
@@ -164,7 +187,7 @@ int main() {
 		model = glm::rotate(model, glm::radians(-45.0f), glm::fvec3(1.0f, 0.0f, 0.0f));
 		shader.setMat4("model", model);
 
-		glDrawElements(GL_TRIANGLES, sizeof(indices)/sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, (background.width / 100) * (background.height / 100) * 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
