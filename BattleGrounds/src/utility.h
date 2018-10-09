@@ -35,6 +35,10 @@ void processInput(GLFWwindow *window) {
 			viewVec.z += 0.00125;
 }
 
+double lerp(double a, double b, double f) {
+	return (double)(a * (1.0f - f)) + (b *f);
+}
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
 	SCR_HEIGHT = height;

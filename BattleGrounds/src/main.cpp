@@ -42,29 +42,45 @@ int main() {
 	Texture background("./res/textures/faerun_no_tags.jpg");
 
 	//float yVal = ((float)background.height / (float)background.width) - 1.0f;
+	int xRes = /*background.width / 100*/5;
+	int yRes = /*background.height / 100*/5;
 
-	float *vertices = (float*)malloc(sizeof(float)*(background.width / 100) * (background.height / 100) * 5);
-	int z = 0;
-	for (float y = -1.0f; y < 1.0f; y += 100.0f / (float)background.height) {
-		for (float x = -1.0f; x < 1.0f; x += 100.0f / (float)background.width, z += 5) {
-			vertices[z]		= x;		// x-coordinate
-			vertices[z + 1] = y;		// y-coordinate
-			vertices[z + 2] = 0.0f;		// z-coordinate
-			vertices[z + 3] = 0.0f;		// texture u-coordinate
-			vertices[z + 4] = 0.0f;		// texture v-coordinate
-			std::cout << "x: " << x << " y: " << y << " z: " << z << std::endl;
+	double *vertices = (double*)malloc(sizeof(double)* xRes * yRes * 5);
+	std::cout << "TESTING 1\n";
+	for (int y = 0; y < yRes; y++) {
+		for (int x = 0; x < xRes; x++) {
+			std::cout << "TESTING 2\n";
+			std::cout << x / (xRes - 1) << std::endl;
+			std::cout << (double)lerp(-1.0f, 1.0f, x / (xRes - 1)) << std::endl;
+			vertices[x + y]		= (double)lerp(-1.0f, 1.0f, x / (xRes - 1));		// x-coordinate
+			vertices[x + y + 1] = (double)lerp(-1.0f, 1.0f, y / (yRes - 1));		// y-coordinate
+			vertices[x + y + 2] = (double)0.0f;										// z-coordinate
+			vertices[x + y + 3] = (double)lerp(0.0f, 1.0f, x / (xRes - 1));			// texture u-coordinate
+			vertices[x + y + 4] = (double)lerp(0.0f, 1.0f, y / (yRes - 1));			// texture v-coordinate
+
+			//std::cout << "x: " << x << " y: " << y << std::endl;
+		}
+	}
+	std::cout << "TESTING 3\n";
+/*
+	for (int y = 0; y < yRes * 5; y += 5) {
+		for (int x = 0; x < xRes * 5; x += 5) {
+			std::cout << "Index [" << x + y << "]: " << vertices[x + y] << std::endl;
+		}
+	}
+*/
+	//std::cout << "xRes: " << xRes << " yRes: " << yRes << std::endl;
+
+	unsigned int *indices = (unsigned int*)malloc(6 * sizeof(unsigned int) * (xRes - 1) * (yRes - 1 ));
+	for (int y = 0; y < yRes - 1; ++y) {
+		for (int x = 0; x < xRes - 1; ++x) {
+			indices[x + y] = indices[x + y + 5] = x + y;
+			indices[x + y + 1] = x + y + 1;
+			indices[x + y + 2] = indices[x + y + 3] = x + y + 6;
+			indices[x + y + 4] = x + y + 5;
 		}
 	}
 
-	unsigned int *indices = new unsigned int((background.width / 100) * (background.height / 100) * 6);
-	for (int ti = 0, vi = 0, y = 0; y < background.height/100; y++, vi++) {
-		for (int x = 0; x < background.width/100; x++, ti += 6, vi++) {
-			indices[ti] = vi;
-			indices[ti + 3] = indices[ti + 2] = vi + 1;
-			indices[ti + 4] = indices[ti + 1] = vi + background.width/100 + 1;
-			indices[ti + 5] = vi + background.width/100 + 2;
-		}
-	}
 /*
 	float vertices[] = {
 		-1.0f,	1.0f, 0.0f,		0.0f,	1.0f, //[0]
@@ -187,7 +203,7 @@ int main() {
 		model = glm::rotate(model, glm::radians(-45.0f), glm::fvec3(1.0f, 0.0f, 0.0f));
 		shader.setMat4("model", model);
 
-		glDrawElements(GL_TRIANGLES, (background.width / 100) * (background.height / 100) * 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, (xRes - 1) * (yRes - 1) * 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
