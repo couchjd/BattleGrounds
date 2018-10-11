@@ -77,7 +77,7 @@ int main() {
 			vertices[index + 4] = (float)(y / (yRes - 1));							// texture v-coordinate
 		}
 	}
-	for (int x = 0; x < verticesSize; x++) {
+	for (int x = 0; x < verticesSize / sizeof(float); x++) {
 		std::cout << "Vertex[" << x << "]: " << (float)vertices[x] << std::endl;
 	}
 
