@@ -41,8 +41,8 @@ int main() {
 
 	Texture background("./res/textures/faerun_no_tags.jpg");
 
-	int xRes = 4/* background.width / 100 */;
-	int yRes = 4/* background.height / 100 */;
+	int xRes = 2/* background.width / 100 */;
+	int yRes = 2/* background.height / 100 */;
 
 	float vertices1[] = {
 		// positions            // texture coords
@@ -60,8 +60,12 @@ int main() {
 	int verticesSize = sizeof(float) * xRes * yRes * 5;
 	std::cout << "Size of vertices: " << verticesSize << std::endl;
 	std::cout << "Size of vertices1: " << sizeof(vertices1) << std::endl;
-
+	
 	float *vertices = (float*)malloc(verticesSize);
+	for (int x = 0; x < verticesSize; x++) {
+		vertices[x] = 0.0f;
+	}
+
 	for (int y = 0; y < yRes; y++) {
 		for (int x = 0; x < xRes * 5; x += 5) {
 
@@ -73,8 +77,8 @@ int main() {
 			vertices[index + 4] = (float)(y / (yRes - 1));							// texture v-coordinate
 		}
 	}
-	for (int x = 0; x < verticesSize / 5 - 1; x += 5) {
-		std::cout << "Vertex: " << vertices[x] << " " << vertices[x + 1] << " "  << vertices[x + 2] << std::endl;
+	for (int x = 0; x < verticesSize; x++) {
+		std::cout << "Vertex[" << x << "]: " << (float)vertices[x] << std::endl;
 	}
 
 	int indicesSize = 6 * sizeof(unsigned int) * (xRes - 1) * (yRes - 1);
@@ -114,7 +118,7 @@ int main() {
 	glBufferData(GL_ARRAY_BUFFER, verticesSize, vertices, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, indices1, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, indices, GL_STATIC_DRAW);
 
 	// position attribute
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
