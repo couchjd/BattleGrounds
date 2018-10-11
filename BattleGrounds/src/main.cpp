@@ -41,8 +41,8 @@ int main() {
 
 	Texture background("./res/textures/faerun_no_tags.jpg");
 
-	int xRes = 2/* background.width / 100 */;
-	int yRes = 2/* background.height / 100 */;
+	int xRes = 4/* background.width / 100 */;
+	int yRes = 4/* background.height / 100 */;
 
 	float vertices1[] = {
 		// positions            // texture coords
@@ -58,7 +58,10 @@ int main() {
 	};
 
 	int verticesSize = sizeof(float) * xRes * yRes * 5;
-	float *vertices = (float*)malloc(sizeof(float)* xRes * yRes * 5);
+	std::cout << "Size of vertices: " << verticesSize << std::endl;
+	std::cout << "Size of vertices1: " << sizeof(vertices1) << std::endl;
+
+	float *vertices = (float*)malloc(verticesSize);
 	for (int y = 0; y < yRes; y++) {
 		for (int x = 0; x < xRes * 5; x += 5) {
 
@@ -70,7 +73,7 @@ int main() {
 			vertices[index + 4] = (float)(y / (yRes - 1));							// texture v-coordinate
 		}
 	}
-	for (int x = 0; x < verticesSize/ 5 - 1; x += 5) {
+	for (int x = 0; x < verticesSize / 5 - 1; x += 5) {
 		std::cout << "Vertex: " << vertices[x] << " " << vertices[x + 1] << " "  << vertices[x + 2] << std::endl;
 	}
 
@@ -81,10 +84,7 @@ int main() {
 	
 	for (int y = 0; y < yRes - 1; ++y) {
 		for (int x = 0; x < (xRes - 1) * 6; x += 6) {
-			int base = x * 6 + y * xRes;
 			int index = (x + (y * (xRes - 1) * 6));
-			//std::cout << "Base: " << base << std::endl;
-			//std::cout << "Index: " << index << std::endl;
 
 			std::cout << "indices[" << index << "]: " << index / 6 + y << std::endl;
 			std::cout << "indices[" << index + 1 << "]: " << (index / 6) + 1 + y << std::endl;
