@@ -53,35 +53,36 @@ int main() {
 			std::cout << (double)((x / 5.0f) / (xRes - 1.0f)) << std::endl;
 			std::cout << (double)lerp(-1.0f, 1.0f, (double)(x / 5.0f) / (xRes - 1)) << std::endl;
 			*/
-			vertices[x + y] = (double)lerp(-1.0f, 1.0f, (double)((x / 5.0f) / (xRes - 1.0f)));	// x-coordinate
-			vertices[x + y + 1] = (double)lerp(-1.0f, 1.0f, (double)(y / (yRes - 1)));				// y-coordinate
-			vertices[x + y + 2] = (double)0.0f;														// z-coordinate
-			vertices[x + y + 3] = (double)lerp(0.0f, 1.0f, (double)((x / 5.0f) / (xRes - 1.0f)));	// texture u-coordinate
-			vertices[x + y + 4] = (double)lerp(0.0f, 1.0f, (double)(y / (yRes - 1.0f)));				// texture v-coordinate
+			int index = (x + (y * ( xRes - 1) * 5));
+			vertices[index]		= (double)(((2 * (x / 5)) / (xRes - 1)) - 1.0f);	// x-coordinate
+			vertices[index + 1] = (double)(((2 * y) / (yRes - 1)) - 1.0f);			// y-coordinate
+			vertices[index + 2] = (double)0.0f;										// z-coordinate
+			vertices[index + 3] = (double)((x / 5) / (xRes - 1));					// texture u-coordinate
+			vertices[index + 4] = (double)(y / (yRes - 1));							// texture v-coordinate
 		}
 	}
 
 	unsigned int *indices = (unsigned int*)malloc(6 * sizeof(unsigned int) * (xRes - 1) * (yRes - 1));
-	for (int y = 0; y < yRes - 1; ++y) {
+	for (int y = 0; y < yRes; ++y) {
 		for (int x = 0; x < (xRes - 1) * 6; x += 6) {
 			int base = x * 6 + y * xRes;
-			int index = x + y * yRes;
+			int index = (x + (y * (xRes - 1) * 6));
 			//std::cout << "Base: " << base << std::endl;
 			//std::cout << "Index: " << index << std::endl;
 
 			std::cout << "indices[" << index << "]: " << index / 6 << std::endl;
-			std::cout << "indices[" << index + 1 << "]: " << index / 6 + 1<< std::endl;
-			std::cout << "indices[" << index + 2 << "]: " << index / 6 + xRes + 1 << std::endl;
-			std::cout << "indices[" << index + 3 << "]: " << index / 6 + xRes + 1 << std::endl;
-			std::cout << "indices[" << index + 4 << "]: " << index / 6 + xRes << std::endl;
+			std::cout << "indices[" << index + 1 << "]: " << (index / 6) + 1 << std::endl;
+			std::cout << "indices[" << index + 2 << "]: " << (index / 6) + xRes + 1 << std::endl;
+			std::cout << "indices[" << index + 3 << "]: " << (index / 6) + xRes + 1 << std::endl;
+			std::cout << "indices[" << index + 4 << "]: " << (index / 6) + xRes << std::endl;
 			std::cout << "indices[" << index + 5 << "]: " << index / 6 << std::endl;
 			std::cout << "------------------------------------------------------" << std::endl;
 
 			indices[index]		= index / 6;
-			indices[index + 1]	= index / 6 + 1;
-			indices[index + 2]	= index / 6 + xRes + 1;
-			indices[index + 3]	= index / 6 + xRes + 1;
-			indices[index + 4]	= index / 6 + xRes;
+			indices[index + 1]	= (index / 6) + 1;
+			indices[index + 2]	= (index / 6) + xRes + 1;
+			indices[index + 3]	= (index / 6 + xRes) + 1;
+			indices[index + 4]	= (index / 6) + xRes;
 			indices[index + 5]	= index / 6;
 			/*
 			std::cout << "Adding Quad at indices[" << x + y << "]:" << std::endl;
@@ -113,25 +114,21 @@ int main() {
 	0.0f,	1.0f, 0.0f,		0.5f,   1.0f,
 	0.5f,	1.0f, 0.0f,		0.75f,  1.0f,
 	1.0f,	1.0f, 0.0f,		1.0f,	1.0f,
-
 	-1.0f,	0.5f, 0.0f,		0.0f,	0.75f, //[5]
 	-0.5f,	0.5f, 0.5f,		0.25f,	0.75f,
 	0.0f,	0.5f, 0.5f,		0.5f,   0.75f,
 	0.5f,	0.5f, 0.5f,		0.75f,  0.75f,
 	1.0f,	0.5f, 0.0f,		1.0f,	0.75f,
-
 	-1.0f,	0.0f, 0.0f,		0.0f,	0.5f, //[10]
 	-0.5f,	0.0f, 0.5f,		0.25f,	0.5f,
 	0.0f,	0.0f, 0.75f,	0.5f,	0.5f,
 	0.5f,	0.0f, 0.5f,		0.75f,	0.5f,
 	1.0f,	0.0f, 0.0f,		1.0f,	0.5f,
-
 	-1.0f, -0.5f, 0.0f,		0.0f,	0.25f, //[15]
 	-0.5f, -0.5f, 0.5f,		0.25f,	0.25f,
 	0.0f, -0.5f, 0.5f,		0.5f,	0.25f,
 	0.5f, -0.5f, 0.5f,		0.75f,	0.25f,
 	1.0f, -0.5f, 0.0f,		1.0f,	0.25f,
-
 	-1.0f, -1.0f, 0.0f,		0.0f,	0.0f, //[20]
 	-0.5f, -1.0f, 0.0f,		0.25f,	0.0f,
 	0.0f, -1.0f, 0.0f,		0.5f,	0.0f,
