@@ -41,8 +41,8 @@ int main() {
 
 	Texture background("./res/textures/faerun_no_tags.jpg");
 
-	int xRes = 2/* background.width / 100 */;
-	int yRes = 2/* background.height / 100 */;
+	int xRes = 5/* background.width / 100 */;
+	int yRes = 5/* background.height / 100 */;
 
 	float vertices1[] = {
 		// positions            // texture coords
@@ -57,20 +57,26 @@ int main() {
 		1, 2, 3  // second triangle
 	};
 
-	int verticesSize = sizeof(float) * xRes * yRes * 5;
+	int verticesSize = 5 * sizeof(float) * xRes * yRes;
 	std::cout << "Size of vertices: " << verticesSize << std::endl;
 	std::cout << "Size of vertices1: " << sizeof(vertices1) << std::endl;
-	
 	float *vertices = (float*)malloc(verticesSize);
+	
 	for (int x = 0; x < verticesSize; x++) {
 		vertices[x] = 0.0f;
 	}
 
 	for (int y = 0; y < yRes; y++) {
 		for (int x = 0; x < xRes * 5; x += 5) {
-
-			int index = (x + (y * ( xRes - 1) * 5));
-			vertices[index]		= (float)(((2 * (x / 5)) / (xRes - 1)) - 1.0f);	// x-coordinate
+			int index = (x + ((y * ( xRes - 1)) * 5));
+			std::cout << "x: " << x << " y: " << y << " xRes: " << xRes << std::endl;
+			std::cout << "vertices[" << index << "]: " << (float)(((2 * (x / 5)) / (xRes - 1)) - 1.0f) << std::endl;
+			std::cout << "vertices[" << index + 1 << "]: " << (float)(((2 * y) / (yRes - 1)) - 1.0f) << std::endl;
+			std::cout << "vertices[" << index + 2 << "]: " << (float)0.0f << std::endl;
+			std::cout << "vertices[" << index + 3 << "]: " << (float)((x / 5) / (xRes - 1)) << std::endl;
+			std::cout << "vertices[" << index + 4 << "]: " << (float)(y / (yRes - 1)) << std::endl;
+			std::cout << std::endl;
+			vertices[index]		= (float)(((2 * (x / 5)) / (xRes - 1)) - 1.0f);		// x-coordinate
 			vertices[index + 1] = (float)(((2 * y) / (yRes - 1)) - 1.0f);			// y-coordinate
 			vertices[index + 2] = (float)0.0f;										// z-coordinate
 			vertices[index + 3] = (float)((x / 5) / (xRes - 1));					// texture u-coordinate
@@ -92,7 +98,7 @@ int main() {
 
 			std::cout << "indices[" << index << "]: " << index / 6 + y << std::endl;
 			std::cout << "indices[" << index + 1 << "]: " << (index / 6) + 1 + y << std::endl;
-			std::cout << "indices[" << index + 2 << "]: " << (index / 6) + xRes + 1  + y << std::endl;
+			std::cout << "indices[" << index + 2 << "]: " << (index / 6) + xRes + 1 + y << std::endl;
 			std::cout << "indices[" << index + 3 << "]: " << (index / 6) + xRes + 1 + y << std::endl;
 			std::cout << "indices[" << index + 4 << "]: " << (index / 6) + xRes + y << std::endl;
 			std::cout << "indices[" << index + 5 << "]: " << index / 6 + y << std::endl;
@@ -166,6 +172,9 @@ int main() {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
+
+	free(vertices);
+	free(indices);
 
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
