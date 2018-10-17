@@ -17,16 +17,16 @@ void processInput(GLFWwindow *window) {
 		glfwSetWindowShouldClose(window, true);
 
 	//pan slower when zoomed in further
-	float panSpeed = abs(viewVec.z) / 4;
+	float panSpeed = abs(viewVec.z)/* / 4*/;
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		viewVec.y -= 0.00625 * panSpeed;
+		viewVec.y -= 0.01 * panSpeed;
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		viewVec.y += 0.00625 * panSpeed;
+		viewVec.y += 0.01 * panSpeed;
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		viewVec.x += 0.00625 * panSpeed;
+		viewVec.x += 0.01 * panSpeed;
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		viewVec.x -= 0.00625 * panSpeed;
+		viewVec.x -= 0.01 * panSpeed;
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 		if (viewVec.z >= -20.0f)
 			viewVec.z -= 0.00125;

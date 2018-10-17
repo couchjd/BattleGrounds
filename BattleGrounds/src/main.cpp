@@ -41,80 +41,21 @@ int main() {
 
 	Texture background("./res/textures/faerun_no_tags.jpg");
 
-	int xRes = 2/* background.width / 100 */;
-	int yRes = 2/* background.height / 100 */;
-	
-	int verticesSize = 5 * sizeof(float) * xRes * yRes;
-	int indicesSize = 6 * sizeof(unsigned int) * (xRes - 1) * (yRes - 1);
-
-	float *vertices = (float*)malloc(verticesSize);
-	unsigned int *indices = (unsigned int*)malloc(indicesSize);
-	
-	for (int x = 0; x < verticesSize/sizeof(float); x++) {
-		vertices[x] = 0.0f;
-	}
-	
+	float yVal = ((float)background.height / (float)background.width) - 1.0f;
 	float vertices1[] = {
-		// positions            // texture coords
-		-1.0f,  1.0f, 0.0f,		0.0f, 1.0f,  // top left 
-		1.0f,  1.0f, 0.0f,		1.0f, 1.0f, // top right
-		-1.0f, -1.0f, 0.0f,		0.0f, 0.0f, // bottom left
-		1.0f, -1.0f, 0.0f,		1.0f, 0.0f, // bottom right
+		// positions            // texture coords   //normals
+		-1.0f,  1.0f, 0.0f,		0.0f, 1.0f,			0.0f, 0.0f, -1.0f,	// top left 
+		1.0f,  1.0f, 0.0f,		1.0f, 1.0f,			0.0f, 0.0f, -1.0f,	// top right
+		-1.0f, yVal, 0.0f,		0.0f, 0.0f,			0.0f, 0.0f, -1.0f,	// bottom left
+		1.0f, yVal, 0.0f,		1.0f, 0.0f,			0.0f, 0.0f, -1.0f,   // bottom right
 	};
 
 	unsigned int indices1[] = {
 		0, 1, 3, // first triangle
-		3, 1, 0  // second triangle
+		3, 2, 0  // second triangle
 	};
 
-	std::cout << "Size of indices: " << indicesSize << std::endl;
-	std::cout << "Size of indices1: " << sizeof(indices1) << std::endl;
-	std::cout << "Size of vertices: " << verticesSize << std::endl;
-	std::cout << "Size of vertices1: " << sizeof(vertices1) << std::endl;
 	
-	for (int y = 0; y < yRes; y++) {
-		for (int x = 0; x < xRes * 5; x += 5) {
-
-			int index = (x + (y * ( xRes - 1) * 5));
-			vertices[index] = (float)(((2 * y) / (yRes - 1)) - 1.0f);				// x-coordinate
-			vertices[index + 1]		= (float)(((2 * (x / 5)) / (xRes - 1)) - 1.0f);	// y-coordinate
-			vertices[index + 2] = (float)0.0f;										// z-coordinate
-			vertices[index + 3] = (float)((x / 5) / (xRes - 1));					// texture u-coordinate
-			vertices[index + 4] = (float)(y / (yRes - 1));							// texture v-coordinate
-		}
-	}
-	
-	for (int i = 0; i < verticesSize / sizeof(float); i += 5) {
-		float x = (float)vertices[i];
-		float y = (float)vertices[i + 1];
-		float z = (float)vertices[i + 2];
-		float u = (float)vertices[i + 3];
-		float v = (float)vertices[i + 4];
-		//std::cout << "Vertex[" << i/5 << "]: x: " << x << " y: " << y << " z: " << z << " u: " << u << " v: " << v << std::endl;
-	}
-	
-
-	for (int y = 0; y < yRes - 1; ++y) {
-		for (int x = 0; x < (xRes - 1) * 6; x += 6) {
-			int index = (x + (y * (xRes - 1) * 6));
-			/*
-			std::cout << "indices[" << index << "]: " << index / 6 + y << std::endl;
-			std::cout << "indices[" << index + 1 << "]: " << (index / 6) + 1 + y << std::endl;
-			std::cout << "indices[" << index + 2 << "]: " << (index / 6) + xRes + 1  + y << std::endl;
-			std::cout << "indices[" << index + 3 << "]: " << (index / 6) + xRes + 1 + y << std::endl;
-			std::cout << "indices[" << index + 4 << "]: " << (index / 6) + xRes + y << std::endl;
-			std::cout << "indices[" << index + 5 << "]: " << index / 6 + y << std::endl;
-			std::cout << "------------------------------------------------------" << std::endl;
-			*/
-			indices[index]		= index / 6 + y;
-			indices[index + 1]	= (index / 6) + 1 + y;
-			indices[index + 2]	= (index / 6) + xRes + 1 + y;
-			indices[index + 3]	= (index / 6 + xRes) + 1 + y;
-			indices[index + 4]	= (index / 6) + xRes + y;
-			indices[index + 5]	= index / 6 + y;
-		}
-	}
-
 	unsigned int VBO, VAO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -123,17 +64,21 @@ int main() {
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, verticesSize, vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices1, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, indices, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices1), indices1, GL_STATIC_DRAW);
 
 	// position attribute
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	// texture coord attribute
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+	// normal attribute
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+
 
 	shader.use();
 
@@ -166,10 +111,11 @@ int main() {
 
 		glm::mat4 model(1);
 		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(-45.0f), glm::fvec3(1.0f, 0.0f, 0.0f));
+		//model = glm::rotate(model, glm::radians(-45.0f), glm::fvec3(1.0f, 0.0f, 0.0f));
 		shader.setMat4("model", model);
+		shader.setVec3("lightPos", viewVec);
 
-		glDrawElements(GL_TRIANGLES, (xRes - 1) * (yRes - 1) * 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -179,8 +125,6 @@ int main() {
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 
-	free(vertices);
-	free(indices);
 
 	glfwTerminate();
 	return 0;
